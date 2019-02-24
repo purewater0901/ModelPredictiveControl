@@ -1,4 +1,5 @@
 import math
+import numpy as np
 
 
 class Kinematics_Model:
@@ -11,9 +12,9 @@ class Kinematics_Model:
         self.tau = param.tau
         self.steering_steady_state_error_deg = param.steering_steady_state_error_deg
 
-    def update(self, des, state):
-        v_des = des[0]
-        delta_des = des[1]
+    def update(self, state, input):
+        v_des = input[0]
+        delta_des = input[1]
 
         delta_des = max(min(delta_des, self.steer_lim), -self.steer_lim)
         v_des = max(min(v_des, self.vel_max), self.vel_min)
@@ -31,4 +32,4 @@ class Kinematics_Model:
         if abs(delta - delta_des) < self.steering_steady_state_error_deg / 180 * math.pi:
             d_delta = 0
 
-        return [d_x, d_y, d_yaw, d_delta]
+        return np.array([d_x, d_y, d_yaw, d_delta])

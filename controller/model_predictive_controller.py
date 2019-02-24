@@ -46,8 +46,6 @@ class MPCController:
 
     def get_nearest_position(self, state):
         min_index = np.linalg.norm(self.ref_path[:, self.IDX_XY] - state[self.IDX_XY]).argmin()
-        if min_index == 0:
-            min_index = 1
         self.ref_sp = self.ref_path[min_index, :]
 
     def simplify_radians(self, rad):
@@ -238,7 +236,10 @@ class MPCController:
 
             lb_ = -math.radians(self.mpc_constraint_steering_deg) * np.ones(self.mpc_n * self.DIM_U)
             ub_ = math.radians(self.mpc_constraint_steering_deg) * np.ones(self.mpc_n * self.DIM_U)
+            G_ = np.vstack([G_, -np.eye(H_.shape[1]), np.eye(H_.shape[1])])
+            h_ = np.hstack([h_, -lb_, ub_])
 
+            cvxopt.solvers.options['show_progress'] = False
             sol = cvxopt.solvers.qp(cvxopt.matrix(H_), cvxopt.matrix(f_), G=cvxopt.matrix(G_), h=cvxopt.matrix(h_))
             tmp_vec = sol['x']
 
