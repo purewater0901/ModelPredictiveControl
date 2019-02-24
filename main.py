@@ -13,5 +13,6 @@ controller = MPCController(ref, parameters)
 initial_pos = parameters.x0
 controller.calc_error(initial_pos)
 controller.create_matrix()
+controller.convex_optimization()
 
 
