@@ -15,7 +15,7 @@ class Path:
         self.spline = self.calc_spline()
         self.yaw = self.calc_yaw()
         self.path = self.get_path()
-
+        self.mpcconfig = MPCConfig()
 
     def plot(self):
         plt.plot(self.spline[0], self.spline[1], c='r', label='cubic spline')
@@ -72,7 +72,7 @@ class ReferencePath(Path):
         self.path[:, self.IDX_XY] *= self.path_size_scale
         self.ref_path[:, self.IDX_XYYAW] = self.path[:, self.IDX_XYYAW]
 
-        self.ref_path[:, self.IDX_VEL] = np.ones(len(self.path))*MPCConfig.vel_ref
+        self.ref_path[:, self.IDX_VEL] = np.ones(len(self.path))*self.mpcconfig.vel_ref
 
     def insert_curvature(self):
         for i in range(1, len(self.ref_path)-1):
