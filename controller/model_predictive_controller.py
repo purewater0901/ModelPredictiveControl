@@ -33,7 +33,7 @@ class MPCController:
         self.DIM_U = 1
         self.Aex = np.zeros([self.DIM_X * self.mpc_n, self.DIM_X])
         self.Bex = np.zeros([self.DIM_X * self.mpc_n, self.DIM_U * self.mpc_n])
-        self.Wex = np.zeros([self.DIM_X * self.mpc_n,])
+        self.Wex = np.zeros([self.DIM_X * self.mpc_n, ])
         self.Cex = np.zeros([self.DIM_Y * self.mpc_n, self.DIM_X * self.mpc_n])
         self.Qex = np.zeros([self.DIM_Y * self.mpc_n, self.DIM_Y * self.mpc_n])
         self.Rex = np.zeros([self.DIM_U * self.mpc_n, self.DIM_U * self.mpc_n])
@@ -42,11 +42,10 @@ class MPCController:
         self.mpc_solve_without_constraint = param.mpc_solve_without_constraint
         self.mpc_constraint_steering_deg = param.mpc_constraint_steer_rate_deg
         self.mpc_constraint_steer_rate__deg = param.mpc_constraint_steer_rate_deg
+        self.mpc_sensor_delay = param.mpc_sensor_delay
 
     def get_nearest_position(self, state):
         min_index = np.linalg.norm(self.ref_path[:, self.IDX_XY] - state[self.IDX_XY]).argmin()
-        if min_index == 0:
-            min_index = 1
         self.ref_sp = self.ref_path[min_index, :]
 
     def simplify_radians(self, rad):
@@ -68,7 +67,7 @@ class MPCController:
         return rad
 
     def calc_error(self, state):
-        self.get_nearest_position(state)
+        self.get_nearest_position(state)  # 一番近い点をゲットする
         sp_yaw = self.ref_sp[self.IDX_YAW]
         # 回転行列を定義
         rotation_matrix = np.array([[math.cos(sp_yaw), math.sin(sp_yaw)], [-math.sin(sp_yaw), math.cos(sp_yaw)]])
@@ -83,7 +82,6 @@ class MPCController:
         self.x0[0] = error_lat
         self.x0[1] = error_yaw
         self.x0[2] = state[self.IDX_DELTA]
-        return np.array([error_lat, error_yaw, state[self.IDX_DELTA]])
 
     def interpolate1d(self, r_path, t):
         f_inter_x = interp.interp1d(r_path[:, self.IDX_TIME], r_path[:, 0])
@@ -163,7 +161,6 @@ class MPCController:
         self.Cex[0:self.DIM_Y, 0:self.DIM_X] = Cd
         self.Qex[0:self.DIM_Y, 0:self.DIM_Y] = self.Q
         self.Rex[0:self.DIM_U, 0:self.DIM_U] = self.R
-        mpc_ref_v = v_
 
         """
         mpc matrix for i=1:n
@@ -202,8 +199,6 @@ class MPCController:
             self.Qex[idx_y_f:idx_y_l, idx_y_f:idx_y_l] = self.Q
             self.Rex[idx_u_f:idx_u_l, idx_u_f:idx_u_l] = self.R
 
-            mpc_ref_v = v_
-
     def convex_optimization(self):
 
         """
@@ -227,20 +222,24 @@ class MPCController:
         if self.mpc_solve_without_constraint:
             np.linalg.inv(-mat1) * mat2.T
         else:
-            H_ = (mat1+mat1.T)/2
+            H_ = (mat1 + mat1.T) / 2
             f_ = mat2
 
             # add steering rate constraint
-            tmp = -np.eye(self.mpc_n-1, self.mpc_n)
-            tmp[:, 1:] = tmp[:, 1:] + np.eye(self.mpc_n-1)
-            T_ = np.kron(tmp, np.array([0,0,1])) / self.mpc_dt
-            dsteer_vec_tmp = np.dot(T_, (np.dot(self.Aex, self.x0)+self.Wex))
+            tmp = -np.eye(self.mpc_n - 1, self.mpc_n)
+            tmp[:, 1:] = tmp[:, 1:] + np.eye(self.mpc_n - 1)
+            T_ = np.kron(tmp, np.array([0, 0, 1])) / self.mpc_dt
+            dsteer_vec_tmp = np.dot(T_, (np.dot(self.Aex, self.x0) + self.Wex))
             G_ = np.concatenate([np.dot(T_, self.Bex), np.dot(-T_, self.Bex)])
-            h_ = np.concatenate([self.steering_rate_lim * np.ones(self.mpc_n-1)-dsteer_vec_tmp, self.steering_rate_lim*np.ones(self.mpc_n-1)+dsteer_vec_tmp])
+            h_ = np.concatenate([self.steering_rate_lim * np.ones(self.mpc_n - 1) - dsteer_vec_tmp,
+                                 self.steering_rate_lim * np.ones(self.mpc_n - 1) + dsteer_vec_tmp])
 
             lb_ = -math.radians(self.mpc_constraint_steering_deg) * np.ones(self.mpc_n * self.DIM_U)
             ub_ = math.radians(self.mpc_constraint_steering_deg) * np.ones(self.mpc_n * self.DIM_U)
+            G_ = np.vstack([G_, -np.eye(H_.shape[1]), np.eye(H_.shape[1])])
+            h_ = np.hstack([h_, -lb_, ub_])
 
+            cvxopt.solvers.options['show_progress'] = False
             sol = cvxopt.solvers.qp(cvxopt.matrix(H_), cvxopt.matrix(f_), G=cvxopt.matrix(G_), h=cvxopt.matrix(h_))
             tmp_vec = sol['x']
 
@@ -249,3 +248,15 @@ class MPCController:
                 input_vec.append(tmp_vec[i])
 
             input_vec = np.array(input_vec)
+            t_mpc = np.arange(0, self.mpc_n*self.mpc_dt, self.mpc_dt)
+
+            f_inter = interp.interp1d(t_mpc, input_vec)
+            delta_des = f_inter(self.mpc_sensor_delay)  # センサーの遅延を考える
+            v_des = self.ref_sp[self.IDX_VEL]
+
+            return np.array([v_des, delta_des])
+
+    def calc_input(self, state):
+        self.calc_error(state)
+        self.create_matrix()
+        return self.convex_optimization()

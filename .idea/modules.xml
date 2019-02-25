@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ModelPredictiveControl.iml" filepath="$PROJECT_DIR$/.idea/ModelPredictiveControl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ModelPredictiveControl/.idea/ModelPredictiveControl.iml" filepath="$PROJECT_DIR$/../ModelPredictiveControl/.idea/ModelPredictiveControl.iml" />
     </modules>
   </component>
 </project>
