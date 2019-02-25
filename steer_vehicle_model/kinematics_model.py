@@ -14,7 +14,7 @@ class Kinematics_Model:
 
     def update(self, state, input):
         v_des = input[0]
-        delta_des = input[1]
+        delta_des = input[1]  # ステアリングの入力
 
         delta_des = max(min(delta_des, self.steer_lim), -self.steer_lim)
         v_des = max(min(v_des, self.vel_max), self.vel_min)

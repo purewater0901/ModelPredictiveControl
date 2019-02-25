@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from tqdm import tqdm
 
 
 class Simulation:
@@ -27,12 +29,12 @@ class Simulation:
         self.input_buf = np.zeros([self.delay_count, len(tmp_u)])
         self.u = np.zeros(len(tmp_u))  # はじめの入力は0
         self.simulate()
-        #ref_path(self.param).plot()
+        self.animate()
 
     def simulate(self):
 
         count = 1
-        for t in np.arange(self.ts, self.tf + self.dt, self.dt):
+        for _ in tqdm(np.arange(self.ts, self.tf + self.dt, self.dt)):
             if count % self.control_count == 0:
                 """
                 add input noise
@@ -42,9 +44,10 @@ class Simulation:
 
             """
             add input delay
+            計算された最新の入力はすぐには入力されない(遅延が生じているため)
             """
             self.input_buf = np.concatenate([self.u.reshape(1, -1), self.input_buf[0:len(self.input_buf) - 1, :]])
-            u_delayed = self.input_buf[len(self.input_buf) - 1, :]
+            u_delayed = self.input_buf[len(self.input_buf) - 1, :]  # 最後の部分を実際の入力とする
 
             """
             ルンゲクッタ
@@ -60,10 +63,24 @@ class Simulation:
             """
             self.state_log[count - 1, :] = self.x
             self.input_log[count - 1, :] = self.u.reshape(1, -1)
-
-            if count % 1000 == 0:
-                plt.plot(self.state_log[0:count, 0], self.state_log[0:count, 1], c='b', label='motion line', linewidth=3)
-                plt.plot(self.ref_path[:, 0], self.ref_path[:, 1], c='r', label='cubic spline')
-                plt.show()
-
             count += 1
+
+    def animate(self):
+        fig = plt.figure()
+        ims = []
+        data_length = len(self.state_log)
+        n = int(data_length / 1000)
+
+        for i in range(1000):
+            im = plt.scatter(self.state_log[i * n, 0], self.state_log[i * n, 1], color='blue')
+            ims.append([im])
+
+        # アニメーション作成
+        ani = animation.ArtistAnimation(fig, ims, interval=1)
+        plt.plot(self.ref_path[:, 0], self.ref_path[:, 1], color='red')
+
+        # アニメーションの保存
+        ani.save('anim.gif', writer="pillow")
+
+        # 表示
+        plt.show()
