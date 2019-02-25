@@ -62,7 +62,7 @@ class Simulation:
             self.input_log[count - 1, :] = self.u.reshape(1, -1)
 
             if count % 1000 == 0:
-                plt.plot(self.state_log[0:count, 0], self.state_log[0:count, 1], c='b', label='motion line')
+                plt.plot(self.state_log[0:count, 0], self.state_log[0:count, 1], c='b', label='motion line', linewidth=3)
                 plt.plot(self.ref_path[:, 0], self.ref_path[:, 1], c='r', label='cubic spline')
                 plt.show()
 

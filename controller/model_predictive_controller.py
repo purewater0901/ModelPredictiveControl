@@ -1,7 +1,6 @@
 import numpy as np
 import math
 import cvxopt
-import cvxpy
 import scipy.interpolate as interp
 
 
@@ -45,7 +44,8 @@ class MPCController:
         self.mpc_sensor_delay = param.mpc_sensor_delay
 
     def get_nearest_position(self, state):
-        min_index = np.linalg.norm(self.ref_path[:, self.IDX_XY] - state[self.IDX_XY]).argmin()
+        distance =  np.linalg.norm(self.ref_path[:, self.IDX_XY] - state[self.IDX_XY], axis=1)
+        min_index = distance.argmin()
         self.ref_sp = self.ref_path[min_index, :]
 
     def simplify_radians(self, rad):
@@ -186,7 +186,7 @@ class MPCController:
             idx_y_f = i * self.DIM_Y
             idx_y_l = (i + 1) * self.DIM_Y
 
-            self.Aex[i * self.DIM_X:(i + 1) * self.DIM_X, :] = Ad * self.Aex[idx_x_prev_f:idx_x_prev_l, :]
+            self.Aex[i * self.DIM_X:(i + 1) * self.DIM_X, :] = np.dot(Ad, self.Aex[idx_x_prev_f:idx_x_prev_l, :])
 
             for j in range(0, i):
                 idx_u_col = [k for k in range(j * self.DIM_U, (j + 1) * self.DIM_U)]
@@ -239,6 +239,9 @@ class MPCController:
             G_ = np.vstack([G_, -np.eye(H_.shape[1]), np.eye(H_.shape[1])])
             h_ = np.hstack([h_, -lb_, ub_])
 
+            """
+            ここからが最適化計算
+            """
             cvxopt.solvers.options['show_progress'] = False
             sol = cvxopt.solvers.qp(cvxopt.matrix(H_), cvxopt.matrix(f_), G=cvxopt.matrix(G_), h=cvxopt.matrix(h_))
             tmp_vec = sol['x']

@@ -23,7 +23,7 @@ class Config:
         '''
         simulation parameters
         '''
-        self.x0 = np.array([0, 0.5, 0, 0])  # initial value
+        self.x0 = np.array([0.05, 0.5, 0, 0])  # initial value
         self.ts = 0
         self.dt = self.simulation_time_step
         self.tf = self.simulation_time
