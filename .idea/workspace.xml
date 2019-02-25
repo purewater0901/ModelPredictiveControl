@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b2e2d074-194c-42b1-b197-345dc6d34ac6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/model_predictive_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controller/model_predictive_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/path_design/create_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/path_design/create_path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulation/simulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/simulation/simulation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/steer_vehicle_model/kinematics_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/steer_vehicle_model/kinematics_model.py" afterDir="false" />
-    </list>
+    <list default="true" id="b2e2d074-194c-42b1-b197-345dc6d34ac6" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -316,6 +310,9 @@
       <module name="ModelPredictiveControl" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -354,7 +351,7 @@
       <workItem from="1550810194426" duration="30974000" />
       <workItem from="1550856770200" duration="210000" />
       <workItem from="1551020508631" duration="6480000" />
-      <workItem from="1551027002658" duration="3210000" />
+      <workItem from="1551027002658" duration="3243000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1550856845751</created>
@@ -377,22 +374,28 @@
       <option name="project" value="LOCAL" />
       <updated>1551025552830</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="not tracking the reference path">
+      <created>1551030241489</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1551030241489</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40874000" />
+    <option name="totallyTimeSpent" value="40907000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-5" width="2562" height="1367" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26981586" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32942164" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32942164" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39983237" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -419,7 +422,8 @@
     <MESSAGE value="first commit" />
     <MESSAGE value="commit idea file" />
     <MESSAGE value="commit simulation file" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit simulation file" />
+    <MESSAGE value="not tracking the reference path" />
+    <option name="LAST_COMMIT_MESSAGE" value="not tracking the reference path" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
