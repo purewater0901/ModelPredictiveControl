@@ -6,7 +6,7 @@ import scipy.interpolate as interp
 
 class MPCController:
 
-    def __init__(self, ref_path, param):
+    def __init__(self, ref_path, param, model):
         self.IDX_X = 0
         self.IDX_Y = 1
         self.IDX_XY = [0, 1]
@@ -42,6 +42,8 @@ class MPCController:
         self.mpc_constraint_steering_deg = param.mpc_constraint_steer_rate_deg
         self.mpc_constraint_steer_rate__deg = param.mpc_constraint_steer_rate_deg
         self.mpc_sensor_delay = param.mpc_sensor_delay
+
+        self.model = model
 
     def get_nearest_position(self, state):
         distance =  np.linalg.norm(self.ref_path[:, self.IDX_XY] - state[self.IDX_XY], axis=1)
@@ -101,50 +103,6 @@ class MPCController:
 
         return np.array([ref_x, ref_y, ref_yaw, ref_vel, ref_curv])
 
-    def get_error_kinematics_state_matrix_(self, dt, v, curvature):
-        """
-        ここではkinematicsモデルの計算を行うときの行列を定義する
-        :param dt: 時刻
-        :param v: 速度
-        :param curvature: 曲率
-        :return:
-        """
-
-        # delta=0の周りで線形化する
-        delta_r = math.atan(self.wheelbase * curvature)
-
-        # delta_rが大きすぎる場合は無理やり40度と仮定する
-        if abs(delta_r) >= math.radians(40):
-            delta_r = (math.radians(40)) * np.sign(delta_r)
-
-        cos_squared_inv = 1 / ((math.cos(delta_r)) ** 2)
-
-        """
-        A = [[0, v, 0]
-            [0, 0, v/L*cos_squared_delta],
-            [0, 0, -1/tau]]
-        B = [[0], [0], [1/tau]]
-        C = [[1,0,0],
-            [0,1,0]]
-        W = [[0],
-             [-v*curvature],
-             [0]]
-        """
-        A = np.array([[0, v, 0], [0, 0, v / (self.wheelbase * cos_squared_inv)], [0, 0, -1 / self.tau]])
-        B = np.array([[0], [0], [1 / self.tau]])
-        C = np.array([[1, 0, 0], [0, 1, 0]])
-        W = np.array(
-            [0, -v * curvature + v / self.wheelbase * (math.tan(delta_r) - delta_r * cos_squared_inv), 0])
-        I = np.diag(np.array([1, 1, 1]))
-
-        A_discrete_inverse = np.linalg.inv(I - dt * 0.5 * A)
-        Ad = np.dot(A_discrete_inverse, (I + dt * 0.5 * A))  # 何故か逆行列の計算をしている
-        Bd = A_discrete_inverse @ B * dt
-        Cd = C
-        Wd = W * dt
-
-        return Ad, Bd, Cd, Wd
-
     def create_matrix(self):
         # 時間を更新
         self.mpc_t = self.ref_sp[self.IDX_TIME]
@@ -156,7 +114,8 @@ class MPCController:
         ref_i_ = self.interpolate1d(self.ref_path, self.mpc_t)
         v_ = ref_i_[self.IDX_VEL]
         k_ = ref_i_[self.IDX_CURVATURE]
-        Ad, Bd, Cd, Wd = self.get_error_kinematics_state_matrix_(self.mpc_dt, v_, k_)
+        #Ad, Bd, Cd, Wd = self.get_error_kinematics_state_matrix_(self.mpc_dt, v_, k_)
+        Ad, Bd, Cd, Wd = self.model.get_discrete_matrix(self.mpc_dt, v_, k_)
         self.Aex[0:self.DIM_X, :] = Ad
         self.Bex[0:self.DIM_X, 0:self.DIM_U] = Bd
         self.Wex[0:self.DIM_X] = Wd
@@ -176,7 +135,8 @@ class MPCController:
             ref_i_ = self.interpolate1d(self.ref_path, self.mpc_t)
             v_ = ref_i_[self.IDX_VEL]
             k_ = ref_i_[self.IDX_CURVATURE]
-            Ad, Bd, Cd, Wd = self.get_error_kinematics_state_matrix_(self.mpc_dt, v_, k_)
+            #Ad, Bd, Cd, Wd = self.get_error_kinematics_state_matrix_(self.mpc_dt, v_, k_)
+            Ad, Bd, Cd, Wd = self.model.get_discrete_matrix(self.mpc_dt, v_, k_)
 
             # update matrix
             idx_x_now_f = i * self.DIM_X

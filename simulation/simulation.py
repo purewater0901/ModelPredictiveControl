@@ -7,10 +7,17 @@ from tqdm import tqdm
 class Simulation:
 
     def __init__(self, model, controller, ref_path, param):
+        '''
+        各クラスのインスタンはここで作る
+        :param model:
+        :param controller:
+        :param ref_path:
+        :param param:
+        '''
         self.param = param()
         self.ref_path = ref_path(self.param).ref_path
         self.model = model(self.param)
-        self.controller = controller(self.ref_path, self.param)
+        self.controller = controller(self.ref_path, self.param, self.model)
         self.x = self.param.x0
         self.ts = self.param.ts
         self.tf = self.param.tf
@@ -51,6 +58,7 @@ class Simulation:
 
             """
             ルンゲクッタ
+            MPCは離散化して計算するが実際に次の場所を計算するときは連続のままで計算する
             """
             k1 = self.model.update(self.x, u_delayed)
             k2 = self.model.update(self.x + k1 * self.dt / 2, u_delayed)
@@ -77,7 +85,12 @@ class Simulation:
 
         # アニメーション作成
         ani = animation.ArtistAnimation(fig, ims, interval=1)
-        plt.plot(self.ref_path[:, 0], self.ref_path[:, 1], color='red')
+        plt.plot(self.ref_path[:, 0], self.ref_path[:, 1], color='red', label='reference_path')
+        plt.plot(self.state_log[:, 0], self.state_log[:, 1], color='green', label='trajectory')
+        plt.xlabel('x')
+        plt.ylabel('y')
+        plt.title('Trajectory and Reference path')
+        plt.legend()
 
         # アニメーションの保存
         ani.save('anim.gif', writer="pillow")

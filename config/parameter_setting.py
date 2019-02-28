@@ -21,6 +21,13 @@ class Config:
         self.steering_steady_state_error_deg = 1
 
         '''
+        model parameter
+        '''
+        self.model_name = 'kinematics'
+        self.state_dim = 3
+        self.output_dim = 2
+
+        '''
         simulation parameters
         '''
         self.x0 = np.array([0.05, 0.5, 0, 0])  # initial value(x, y, yaw, delta)
