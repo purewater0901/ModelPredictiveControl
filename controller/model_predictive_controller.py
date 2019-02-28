@@ -206,18 +206,23 @@ class MPCController:
         1/2*U'*mat1*U + mat2*U+C
         :return:
         """
-
+        mat1 = self.Bex.T @ self.Cex.T @ self.Qex @ self.Cex @ self.Bex + self.Rex
+        '''
         mat1_tmp1 = np.dot(self.Bex.T, self.Cex.T)
         mat1_tmp2 = np.dot(mat1_tmp1, self.Qex)
         mat1_tmp3 = np.dot(mat1_tmp2, self.Cex)
         mat1_tmp4 = np.dot(mat1_tmp3, self.Bex)
         mat1 = mat1_tmp4 + self.Rex
+        '''
 
+        mat2 = (self.x0.T @ self.Aex.T + self.Wex.T) @ self.Cex.T @ self.Qex @ self.Cex @ self.Bex
+        '''
         mat2_tmp1 = np.dot(self.x0.T, self.Aex.T) + self.Wex.T
         mat2_tmp2 = np.dot(mat2_tmp1, self.Cex.T)
         mat2_tmp3 = np.dot(mat2_tmp2, self.Qex)
         mat2_tmp4 = np.dot(mat2_tmp3, self.Cex)
         mat2 = np.dot(mat2_tmp4, self.Bex)
+        '''
 
         if self.mpc_solve_without_constraint:
             np.linalg.inv(-mat1) * mat2.T

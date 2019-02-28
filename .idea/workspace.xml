@@ -4,9 +4,7 @@
     <list default="true" id="178be1e7-e613-4210-aa96-6a5fff930211" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/animation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/parameter_setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/parameter_setting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulation/simulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/simulation/simulation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/steer_vehicle_model/kinematics_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/steer_vehicle_model/kinematics_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/model_predictive_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controller/model_predictive_controller.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,7 +13,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/ModelPredictiveControl$main.coverage" NAME="main Coverage Results" MODIFIED="1551094455914" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ModelPredictiveControl$main.coverage" NAME="main Coverage Results" MODIFIED="1551315741376" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ModelPredictiveControl$animation.coverage" NAME="animation Coverage Results" MODIFIED="1551088787420" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
@@ -29,20 +27,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controller/model_predictive_controller.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4056">
-              <caret line="3" selection-start-line="3" selection-end-line="3" />
+            <state relative-caret-position="-339">
+              <caret line="224" column="10" selection-start-line="224" selection-start-column="10" selection-end-line="224" selection-end-column="10" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/simulation/simulation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="426">
-              <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
+            <state relative-caret-position="228">
+              <caret line="63" column="48" selection-start-line="63" selection-start-column="48" selection-end-line="63" selection-end-column="48" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -65,11 +66,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/steer_vehicle_model/kinematics_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="18" column="29" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
+            <state>
+              <caret column="10" selection-start-column="10" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -97,26 +95,24 @@
       <list>
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/path_design/create_path.py" />
-        <option value="$PROJECT_DIR$/controller/model_predictive_controller.py" />
         <option value="$PROJECT_DIR$/config/parameter_setting.py" />
         <option value="$PROJECT_DIR$/animation.py" />
         <option value="$PROJECT_DIR$/simulation/simulation.py" />
         <option value="$PROJECT_DIR$/steer_vehicle_model/kinematics_model.py" />
+        <option value="$PROJECT_DIR$/controller/model_predictive_controller.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="490" />
-    <option name="y" value="73" />
-    <option name="width" value="1430" />
-    <option name="height" value="858" />
+    <option name="y" value="-2" />
+    <option name="width" value="1920" />
+    <option name="height" value="1082" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -153,6 +149,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -236,7 +233,9 @@
       <updated>1550996106497</updated>
       <workItem from="1550996110127" duration="13590000" />
       <workItem from="1551076948835" duration="6365000" />
-      <workItem from="1551083328373" duration="7619000" />
+      <workItem from="1551083328373" duration="8061000" />
+      <workItem from="1551312387289" duration="29000" />
+      <workItem from="1551315557033" duration="1142000" />
     </task>
     <task id="LOCAL-00001" summary="complete optimum equation">
       <created>1551020374845</created>
@@ -252,22 +251,28 @@
       <option name="project" value="LOCAL" />
       <updated>1551082799418</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add animation code">
+      <created>1551095671953</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1551095671953</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27574000" />
+    <option name="totallyTimeSpent" value="29187000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="32" width="1920" height="967" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18937768" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19474249" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3296433" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3296433" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.399754" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -314,7 +319,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="complete optimum equation" />
     <MESSAGE value="complete calculation" />
-    <option name="LAST_COMMIT_MESSAGE" value="complete calculation" />
+    <MESSAGE value="add animation code" />
+    <option name="LAST_COMMIT_MESSAGE" value="add animation code" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -346,13 +352,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/out.csv">
       <provider editor-type-id="text-editor" />
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
       <provider selected="true" editor-type-id="csv-text-editor">
         <state relative-caret-position="-314396">
           <caret line="14" column="42" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
         </state>
-      </provider>
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/anim.gif">
@@ -362,23 +368,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controller/model_predictive_controller.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4056">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/steer_vehicle_model/kinematics_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="18" column="29" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -394,8 +383,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/simulation/simulation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
-          <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
+        <state relative-caret-position="228">
+          <caret line="63" column="48" selection-start-line="63" selection-start-column="48" selection-end-line="63" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/steer_vehicle_model/kinematics_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="10" selection-start-column="10" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/model_predictive_controller.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-339">
+          <caret line="224" column="10" selection-start-line="224" selection-start-column="10" selection-end-line="224" selection-end-column="10" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
